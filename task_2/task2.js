@@ -1,4 +1,9 @@
-//Workaround for ES6 modules
+//Babel usage
+import fs from 'fs';
+import csvToJson from 'csvtojson';
+import { pipeline } from 'stream';
+
+//Workaround for ES6 modules without Babel - dont't forget package.json changes
 // import fs from 'fs';
 // import csvToJson from 'csvtojson';
 // import { pipeline } from 'stream';
@@ -8,9 +13,9 @@
 // const __dirname = path.dirname(__filename);
 
 //CommonJS modules
-const fs = require('fs');
-const csvToJson = require('csvtojson');
-const { pipeline } = require('stream');
+// const fs = require('fs');
+// const csvToJson = require('csvtojson');
+// const { pipeline } = require('stream');
 
 //Common part
 const csvFilePath = `${__dirname}../../csv/nodejs-hw1-ex1.csv`;
