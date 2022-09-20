@@ -1,62 +1,94 @@
+//Workaround for ES6 modules
+// import fs from 'fs';
+// import csvToJson from 'csvtojson';
+// import { pipeline } from 'stream';
+// import path from 'path';
+// import { fileURLToPath } from 'url';
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
+
+//CommonJS modules
 const fs = require('fs');
-const csvFilePath = `${__dirname}../../csv/nodejs-hw1-ex1.csv`;
 const csvToJson = require('csvtojson');
-const readStream = fs.createReadStream(csvFilePath);
-const writeStream = fs.createWriteStream('output.txt');
 const { pipeline } = require('stream');
 
+//Common part
+const csvFilePath = `${__dirname}../../csv/nodejs-hw1-ex1.csv`;
+const readStream = fs.createReadStream(csvFilePath);
+const writeStream = fs.createWriteStream(`${__dirname}/output.txt`);
+const option = {
+        delimiter: ";",
+        colParser: {
+            "Amount": "omit",
+        },
+        // checkType: true
+    }
 
-//SOLUTION 1
-// csvToJson({
-//     delimiter: "auto",
-// })
+// SOLUTION 1 (main)
+pipeline(
+    readStream,
+    csvToJson(option)
+        .on('data', (chunk) => {
+            console.log('!!! Chunk', chunk.toString())
+            // throw new Error('ABC ERROR')
+        }),
+    writeStream,
+    (err) => {
+        if (err) {
+            console.error('Custom error', err)
+        } else {
+            console.log('Pipeline succeeded')
+        }
+    }
+)
+
+
+// SOLUTION 2
+// csvToJson()
+//     .fromFile('../csv/nodejs-hw1-ex1.csv')
+//     .then((jsonObj) => console.log('test', jsonObj));
+
+// readStream
+//     // .pipe(csvToJson(option))
+//     .map((d) => {
+//         console.log('**', d.toString())
+//         return d
+//     })
+//     // .on('data', (chunk) => console.log('chunk', chunk.toString()))
+//     // .map((data) => {
+//     //     console.log('*', data.toString())
+//     //     return `${data}***`
+//     // })
+//     // .on('end', () => console.log('File is read'))
+//     .pipe(writeStream)
+
+//SOLUTION 3
+// csvToJson(option)
 //     .fromStream(readStream)
 //     .on('error', (error) => console.error(error))
 //     .pipe(writeStream)
 //     .on('error', (error) => console.error(error))
 
-//SOLUTION 2
-// pipeline(
-//     readStream,
-//     csvToJson({
+//SOLUTION 4 - with readLine
+// const readLine = require('readline');
+//
+// const lineByLine = readLine.createInterface({
+//     input: csvToJson({
 //         delimiter: "auto",
 //         colParser: {
 //             "Amount": "omit",
 //         },
 //         checkType: true
-//     }),
-//     writeStream,
-//     (err) => {
-//         if (err) {
-//             console.error(err)
-//         } else {
-//             console.log('Pipeline succeeded')
-//         }
-//     }
-// )
-
-//SOLUTION 3 - with readLine
-const readLine = require('readline');
-
-const lineByLine = readLine.createInterface({
-    input: csvToJson({
-        delimiter: "auto",
-        colParser: {
-            "Amount": "omit",
-        },
-        checkType: true
-    }).fromStream(readStream),
-    output: writeStream
-})
-
-lineByLine.on('line', (line) => {
-    console.log('Line Is ', line);
-    writeStream.write(line);
-    writeStream.write('\n');
-})
-
-
-
+//     }).fromStream(readStream),
+//     output: writeStream
+// })
+//
+// lineByLine.on('line', (line) => {
+//     console.log('Line Is ', line);
+//     writeStream.write(line);
+//     writeStream.write('\n');
+//     console.log('after chunk');
+// })
 
 const used = process.memoryUsage().heapUsed / 1024 / 1024;
 console.log(`The script uses approximately ${Math.round(used * 100) / 100} MB`);
