@@ -3,7 +3,7 @@ import fs from 'fs';
 import csvToJson from 'csvtojson';
 import { pipeline } from 'stream';
 
-//Workaround for ES6 modules without Babel - dont't forget package.json changes
+//Workaround for ES6 modules without Babel - don't forget package.json changes
 // import fs from 'fs';
 // import csvToJson from 'csvtojson';
 // import { pipeline } from 'stream';
@@ -12,7 +12,7 @@ import { pipeline } from 'stream';
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = path.dirname(__filename);
 
-//CommonJS modules
+// CommonJS modules
 // const fs = require('fs');
 // const csvToJson = require('csvtojson');
 // const { pipeline } = require('stream');
@@ -34,15 +34,15 @@ pipeline(
     readStream,
     csvToJson(option)
         .on('data', (chunk) => {
-            console.log('!!! Chunk', chunk.toString())
+            console.log('!!! Chunk', chunk.toString());
             // throw new Error('ABC ERROR')
         }),
     writeStream,
     (err) => {
         if (err) {
-            console.error('Custom error', err)
+            console.error('Custom error', err);
         } else {
-            console.log('Pipeline succeeded')
+            console.log('Pipeline succeeded');
         }
     }
 )
@@ -94,6 +94,3 @@ pipeline(
 //     writeStream.write('\n');
 //     console.log('after chunk');
 // })
-
-const used = process.memoryUsage().heapUsed / 1024 / 1024;
-console.log(`The script uses approximately ${Math.round(used * 100) / 100} MB`);
