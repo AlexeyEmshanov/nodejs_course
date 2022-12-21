@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "task1": "nodemon ./task_1.1/task1.js",
-    "task2": "nodemon ./task_1.2/task2.js",
-    "task2babel": "nodemon --exec node_modules/.bin/babel-node ./task_1.2/task2.js"
+    "task1": "nodemon ./task_1.1_/task1.js",
+    "task2": "nodemon ./task_1.2_/task2.js",
+    "task2babel": "nodemon --exec node_modules/.bin/babel-node ./task_1.2_/task2.js"
   },
   "keywords": [],
   "author": "",
