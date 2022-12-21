@@ -7,10 +7,10 @@ import { pipeline } from 'stream';
 // import fs from 'fs';
 // import csvToJson from 'csvtojson';
 // import { pipeline } from 'stream';
-// import path from 'path';
-// import { fileURLToPath } from 'url';
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // CommonJS modules
 // const fs = require('fs');

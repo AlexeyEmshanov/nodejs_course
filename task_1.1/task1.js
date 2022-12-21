@@ -1,11 +1,15 @@
+import * as readline from 'readline';
+
 const input = process.stdin;
 const output = process.stdout;
 
-input.on('data', (data) => {
+const rl = readline.createInterface( { input } );
+
+rl.on( 'line', (data) => {
     output.write(reverseInput(data.toString()));
     output.write("\n\n");
 })
 
-function reverseInput(input) {
-    return input.split('').reverse().join('').trim();
+function reverseInput(inputString) {
+    return inputString.split('').reverse().join('').trim();
 }
